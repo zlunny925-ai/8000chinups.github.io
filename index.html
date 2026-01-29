@@ -1,1 +1,818 @@
-# 8000chinups.github.io
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>8,000 Chin‑Ups in 24 Hours — Zachary Lundfelt</title>
+  <meta name="description" content="Zachary Lundfelt attempts 8,000 strict chin-ups in 24 hours on Sept 1, 2026 — fundraising benefiting Wounded Warrior Project via official page." />
+
+  <!--
+    One‑page landing page (single HTML file).
+    How to customize quickly:
+      1) Update the campaign URL in the DONATE_URL constant (near bottom) if it changes.
+      2) Update the attempt time in EVENT_ISO if you want a precise start time.
+      3) Optionally add a hero image: set --hero-image in :root to url('hero.jpg') and place hero.jpg next to this file.
+  -->
+
+  <style>
+    :root{
+      --bg: #0b0d10;
+      --panel: #10141a;
+      --panel-2: #0f1319;
+      --text: #e9eef7;
+      --muted: #b7c0cf;
+      --line: rgba(255,255,255,.08);
+      --accent: #ff3b30;  /* red */
+      --accent-2: #ff7a18; /* orange */
+      --shadow: 0 18px 40px rgba(0,0,0,.45);
+      --radius: 14px;
+      --max: 1060px;
+      --hero-image: none; /* example: url('hero.jpg') */
+    }
+
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Helvetica Neue", Helvetica, sans-serif;
+      background:
+        radial-gradient(1100px 700px at 15% 10%, rgba(255,59,48,.14), transparent 60%),
+        radial-gradient(900px 600px at 85% 0%, rgba(255,122,24,.10), transparent 55%),
+        radial-gradient(900px 600px at 50% 95%, rgba(255,59,48,.10), transparent 55%),
+        var(--bg);
+      color: var(--text);
+      line-height:1.55;
+    }
+
+    a{ color: inherit; }
+
+    /* Top bar */
+    .topbar{
+      position: sticky;
+      top:0;
+      z-index: 50;
+      border-bottom: 1px solid var(--line);
+      background: rgba(11,13,16,.78);
+      backdrop-filter: blur(10px);
+    }
+
+    .topbar-inner{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 12px 18px;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      min-width: 220px;
+    }
+
+    .mark{
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background:
+        linear-gradient(135deg, rgba(255,59,48,1), rgba(255,122,24,1));
+      box-shadow: 0 12px 30px rgba(255,59,48,.18);
+    }
+
+    .brand-title{
+      display:flex;
+      flex-direction:column;
+      line-height: 1.1;
+    }
+
+    .brand-title strong{
+      letter-spacing: .6px;
+      text-transform: uppercase;
+      font-size: 12px;
+      opacity: .95;
+    }
+
+    .brand-title span{
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    nav{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 10px 14px;
+      justify-content: flex-end;
+    }
+
+    nav a{
+      text-decoration:none;
+      font-size: 12px;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 8px 10px;
+      border-radius: 10px;
+    }
+
+    nav a:hover{ color: var(--text); background: rgba(255,255,255,.04); }
+
+    .cta-mini{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+    }
+
+    /* Buttons */
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap: 10px;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-weight: 800;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+      font-size: 12px;
+      text-decoration:none;
+      border: 1px solid transparent;
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+      user-select:none;
+      cursor:pointer;
+      white-space: nowrap;
+    }
+
+    .btn:active{ transform: translateY(1px); }
+
+    .btn-primary{
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #0b0d10;
+      box-shadow: 0 16px 34px rgba(255,59,48,.20);
+    }
+
+    .btn-primary:hover{ filter: brightness(1.05); }
+
+    .btn-ghost{
+      background: rgba(255,255,255,.03);
+      border-color: rgba(255,255,255,.10);
+      color: var(--text);
+    }
+
+    .btn-ghost:hover{ background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.18); }
+
+    /* Layout */
+    .container{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 18px;
+    }
+
+    .hero{
+      padding: 54px 0 26px;
+      position: relative;
+      overflow:hidden;
+    }
+
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(800px 600px at 30% 20%, rgba(255,59,48,.16), transparent 60%),
+        radial-gradient(800px 600px at 80% 10%, rgba(255,122,24,.12), transparent 60%);
+      pointer-events:none;
+    }
+
+    .hero::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background-image: var(--hero-image);
+      background-size: cover;
+      background-position: center;
+      opacity: .12;
+      filter: grayscale(100%) contrast(120%);
+      pointer-events:none;
+    }
+
+    .hero-grid{
+      position: relative;
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .hero-card{
+      background: linear-gradient(180deg, rgba(16,20,26,.92), rgba(12,15,20,.88));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 26px;
+      min-height: 310px;
+    }
+
+    .kicker{
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .dot{
+      width: 8px;
+      height: 8px;
+      border-radius: 99px;
+      background: var(--accent);
+      box-shadow: 0 0 0 6px rgba(255,59,48,.15);
+    }
+
+    h1{
+      margin: 14px 0 10px;
+      font-size: clamp(34px, 5vw, 58px);
+      letter-spacing: -0.02em;
+      line-height: 1.02;
+      text-transform: uppercase;
+    }
+
+    .subhead{
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 60ch;
+    }
+
+    .hero-actions{
+      display:flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .callouts{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .pill{
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255,255,255,.03);
+      padding: 12px 12px;
+    }
+
+    .pill strong{
+      display:block;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: .9px;
+    }
+
+    .pill span{
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .side-card{
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+
+    .panel{
+      background: linear-gradient(180deg, rgba(16,20,26,.92), rgba(12,15,20,.88));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .panel h3{
+      margin: 0 0 10px;
+      font-size: 14px;
+      letter-spacing: .9px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .panel p{
+      margin: 0;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .countdown{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .timebox{
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      border-radius: 14px;
+      padding: 12px;
+      text-align:center;
+    }
+
+    .timebox .num{
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: .5px;
+    }
+
+    .timebox .lbl{
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Sections */
+    section{
+      padding: 26px 0;
+    }
+
+    .section-title{
+      display:flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .section-title h2{
+      margin:0;
+      font-size: 18px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .section-title .note{
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .grid-2{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .grid-3{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .list{
+      margin: 10px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .list li{ margin: 6px 0; }
+
+    .big-quote{
+      border-left: 3px solid var(--accent);
+      padding: 10px 12px;
+      background: rgba(255,255,255,.02);
+      border-radius: 12px;
+      color: var(--text);
+      font-weight: 750;
+      letter-spacing: .2px;
+    }
+
+    .warn{
+      border: 1px solid rgba(255,59,48,.38);
+      background: rgba(255,59,48,.08);
+      border-radius: var(--radius);
+      padding: 14px;
+    }
+
+    .warn strong{
+      display:block;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .muted{ color: var(--muted); }
+
+    .footer{
+      padding: 26px 0 40px;
+      border-top: 1px solid var(--line);
+      margin-top: 26px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .footer a{ color: var(--text); }
+
+    /* Mobile */
+    @media (max-width: 920px){
+      .hero-grid{ grid-template-columns: 1fr; }
+      .callouts{ grid-template-columns: 1fr; }
+      nav{ display:none; }
+      .grid-2{ grid-template-columns: 1fr; }
+      .grid-3{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand" aria-label="Site brand">
+        <div class="mark" aria-hidden="true"></div>
+        <div class="brand-title">
+          <strong>8,000 Chin‑Ups</strong>
+          <span>24‑hour world record attempt</span>
+        </div>
+      </div>
+
+      <nav aria-label="Page navigation">
+        <a href="#mission">Mission</a>
+        <a href="#standard">Standard</a>
+        <a href="#math">Math</a>
+        <a href="#verification">Verification</a>
+        <a href="#safety">Safety</a>
+        <a href="#help">Help</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <div class="cta-mini">
+        <a class="btn btn-primary" id="donateTop" href="#help">Donate</a>
+      </div>
+    </div>
+  </div>
+
+  <header class="hero" id="home">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-card">
+          <div class="kicker"><span class="dot" aria-hidden="true"></span> Fundraiser • September 1, 2026</div>
+          <h1>8,000 Chin‑Ups.<br/>24 Hours.</h1>
+          <p class="subhead">
+            <strong>Zachary Lundfelt</strong> will attempt <strong>8,000 strict dead‑hang chin‑ups</strong> in a 24‑hour window.
+            This is an independent fundraiser benefiting <strong>Wounded Warrior Project®</strong> via an official campaign page.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" id="donateHero" href="#help">Donate (Official Link)</a>
+            <a class="btn btn-ghost" href="#standard">What counts as a rep?</a>
+            <a class="btn btn-ghost" href="#verification">How it’s verified</a>
+          </div>
+
+          <div class="callouts" aria-label="Key attempt facts">
+            <div class="pill"><strong>Target date</strong><span>September 1, 2026 (ET)</span></div>
+            <div class="pill"><strong>Pacing reality</strong><span>8,000 / 24h = 333 per hour</span></div>
+            <div class="pill"><strong>Verification</strong><span>Video + 2‑person count log</span></div>
+          </div>
+        </div>
+
+        <div class="side-card">
+          <div class="panel">
+            <h3>Countdown</h3>
+            <p class="muted">Countdown to Sept 1, 2026 (time can be updated).</p>
+            <div class="countdown" role="group" aria-label="Countdown timer">
+              <div class="timebox"><div class="num" id="cdDays">—</div><div class="lbl">Days</div></div>
+              <div class="timebox"><div class="num" id="cdHours">—</div><div class="lbl">Hours</div></div>
+              <div class="timebox"><div class="num" id="cdMins">—</div><div class="lbl">Mins</div></div>
+              <div class="timebox"><div class="num" id="cdSecs">—</div><div class="lbl">Secs</div></div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h3>Credibility snapshot</h3>
+            <p>
+              Baseline: <strong>~1,000 neutral‑grip pull‑ups in 2 hours</strong>.<br/>
+              Prior attempt: <strong>3,417 pull‑ups in ~21.5 hours</strong> (stopped due to a rhabdo scare; later cleared).
+            </p>
+          </div>
+
+          <div class="panel">
+            <h3>Direct link</h3>
+            <p class="muted">Donations go to the official fundraising page:</p>
+            <p style="margin-top:10px;">
+              <a class="btn btn-primary" id="donatePanel" href="#help">Open Donate Link</a>
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section id="mission">
+      <div class="section-title">
+        <h2>Mission</h2>
+        <div class="note">No fluff. Do the work. Fund the mission.</div>
+      </div>
+
+      <div class="grid-2">
+        <div class="panel">
+          <p>
+            This attempt is simple: do something brutally hard, with full accountability, and use it to raise money for programs serving wounded veterans and their families.
+            The fundraising mechanism is straightforward—click donate, and you’re sent to the official campaign page.
+          </p>
+          <p style="margin-top:10px;" class="muted">
+            Training, pacing, and verification are built around tendon health, hydration/electrolytes, and rhabdo risk management.
+          </p>
+        </div>
+
+        <div class="panel">
+          <div class="big-quote">
+            “Discipline beats motivation. Every rep counts. Every hour counts.”
+          </div>
+          <p style="margin-top:10px;" class="muted">
+            Want to help beyond donating? Sponsorship and volunteer support keep the attempt organized, safe, and verifiable.
+          </p>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="standard">
+      <div class="section-title">
+        <h2>Rep standard</h2>
+        <div class="note">Strict. Clear. Countable.</div>
+      </div>
+
+      <div class="grid-2">
+        <div class="panel">
+          <p><strong>What counts as a rep:</strong></p>
+          <ul class="list">
+            <li><strong>Supinated chin‑ups</strong> on a <strong>straight bar</strong>.</li>
+            <li><strong>Full lockout / near dead‑hang</strong> at the bottom.</li>
+            <li><strong>Chin clearly over the bar</strong> at the top.</li>
+            <li><strong>No kipping</strong>, no bouncing, no lower‑body momentum.</li>
+          </ul>
+          <p class="muted" style="margin-top:10px;">
+            The goal is unambiguous judging and repeatable training specificity.
+          </p>
+        </div>
+
+        <div class="panel">
+          <p><strong>Environment:</strong></p>
+          <ul class="list">
+            <li>Standard gym straight bar (no rotating grips).</li>
+            <li>Indoor, climate‑controlled if possible.</li>
+            <li>Chalk allowed; tape only for skin protection (tears), no straps.</li>
+          </ul>
+          <p class="muted" style="margin-top:10px;">
+            Consistency protects elbows, grip, and skin—and keeps verification clean.
+          </p>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="math">
+      <div class="section-title">
+        <h2>The math</h2>
+        <div class="note">Reality check → pacing strategy.</div>
+      </div>
+
+      <div class="grid-3">
+        <div class="panel">
+          <h3>Average</h3>
+          <p><strong>8,000 / 24 hours = 333 reps/hour</strong></p>
+          <p class="muted" style="margin-top:8px;">That’s ~5–6 reps/min sustained, before breaks.</p>
+        </div>
+        <div class="panel">
+          <h3>Execution</h3>
+          <p><strong>Micro‑sets + short breaks</strong></p>
+          <p class="muted" style="margin-top:8px;">Small sets spread across each hour, plus planned resets.</p>
+        </div>
+        <div class="panel">
+          <h3>Failure modes</h3>
+          <p><strong>Hands + elbows + hydration</strong></p>
+          <p class="muted" style="margin-top:8px;">Skin tears and tendon pain end attempts faster than "tired lats".</p>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="verification">
+      <div class="section-title">
+        <h2>Verification</h2>
+        <div class="note">Trust is earned on camera + on paper.</div>
+      </div>
+
+      <div class="grid-2">
+        <div class="panel">
+          <p><strong>Default verification plan:</strong></p>
+          <ul class="list">
+            <li>Continuous‑ish video recording with a clear angle showing ROM.</li>
+            <li>Two‑person count log (rotating verifiers).</li>
+            <li>Hourly totals recorded and cross‑checked.</li>
+          </ul>
+          <p class="muted" style="margin-top:10px;">This is the baseline standard even if a formal record body is pursued in parallel.</p>
+        </div>
+
+        <div class="panel">
+          <p><strong>What you’ll be able to see:</strong></p>
+          <ul class="list">
+            <li>Rep standard explained clearly before the attempt.</li>
+            <li>Counting method visible (clicker + written logs).</li>
+            <li>Post‑attempt recap: totals, timestamps, and verification artifacts.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="safety">
+      <div class="section-title">
+        <h2>Safety protocol</h2>
+        <div class="note">Record attempt ends if safety goes sideways.</div>
+      </div>
+
+      <div class="warn">
+        <strong>Hard stop criteria — stop immediately and seek medical evaluation</strong>
+        <div class="muted">
+          Dark/cola urine • severe swelling • profound weakness • severe pain with systemic symptoms • confusion • inability to urinate • dehydration symptoms not improving with fluids + sodium.
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:14px;">
+        <div class="panel">
+          <p><strong>Hydration &amp; electrolytes (long sessions / attempt):</strong></p>
+          <ul class="list">
+            <li><strong>500–750 mL/hour</strong> fluids.</li>
+            <li><strong>300–600 mg sodium/hour</strong> minimum (up to ~<strong>1,000 mg/hour</strong> in heavy sweat/heat).</li>
+          </ul>
+          <p class="muted" style="margin-top:10px;">Hydration without sodium is a trap. Sodium without fluids is also a trap. Balance wins.</p>
+        </div>
+
+        <div class="panel">
+          <p><strong>Medication / stimulant rule:</strong></p>
+          <ul class="list">
+            <li>Avoid <strong>NSAIDs</strong> during extreme efforts.</li>
+            <li><strong>Caffeine is strategic</strong> (no “panic dosing”).</li>
+            <li>Nothing new on event day—every strategy is tested in simulations first.</li>
+          </ul>
+          <p class="muted" style="margin-top:10px;">Kidney risk management is non‑negotiable.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="help">
+      <div class="section-title">
+        <h2>How to help</h2>
+        <div class="note">Donate. Sponsor. Volunteer.</div>
+      </div>
+
+      <div class="grid-3">
+        <div class="panel">
+          <h3>Donate</h3>
+          <p>Donations are processed on the official campaign page (external link).</p>
+          <p style="margin-top:12px;">
+            <a class="btn btn-primary" id="donateButton" href="#">Donate via WWP Campaign</a>
+          </p>
+          <p class="muted" style="margin-top:10px;">If you want maximum credibility, always donate through the official page.</p>
+        </div>
+
+        <div class="panel">
+          <h3>Sponsor</h3>
+          <p>Sponsorship supports logistics: venue, verification, equipment, media, and safety staffing.</p>
+          <p style="margin-top:12px;">
+            <a class="btn btn-ghost" href="mailto:Zach@sprfc.com?subject=8000%20Chin-Ups%20Sponsor%20Inquiry">Email for Sponsorship</a>
+          </p>
+          <p class="muted" style="margin-top:10px;">Sponsor packages can be simple (flat support) or tiered (logo on banners, etc.).</p>
+        </div>
+
+        <div class="panel">
+          <h3>Volunteer</h3>
+          <p>We need rotating verifiers, logistics support, and safety oversight so the attempt stays clean and controlled.</p>
+          <p style="margin-top:12px;">
+            <a class="btn btn-ghost" href="mailto:Zach@sprfc.com?subject=8000%20Chin-Ups%20Volunteer%20Inquiry">Email to Volunteer</a>
+          </p>
+          <p class="muted" style="margin-top:10px;">If you can cover a 2–4 hour shift, you’re useful.</p>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:14px;">
+        <p><strong>Contact:</strong> <a href="mailto:Zach@sprfc.com">Zach@sprfc.com</a></p>
+        <p class="muted" style="margin-top:8px;">
+          Note: this is an independently run fundraiser site. It is not endorsed by or officially affiliated with Wounded Warrior Project®. Donations are processed via the official campaign link.
+        </p>
+      </div>
+    </section>
+
+
+    <section id="faq">
+      <div class="section-title">
+        <h2>FAQ</h2>
+        <div class="note">Short answers.</div>
+      </div>
+
+      <div class="grid-2">
+        <div class="panel">
+          <h3>What counts as a rep?</h3>
+          <p class="muted">Supinated chin‑up, straight bar, full lockout/near dead‑hang bottom, chin over bar top, no kipping.</p>
+        </div>
+        <div class="panel">
+          <h3>Where do donations go?</h3>
+          <p class="muted">Directly to the official WWP community fundraising campaign page linked here.</p>
+        </div>
+        <div class="panel">
+          <h3>How is it verified?</h3>
+          <p class="muted">Continuous‑ish video + two‑person count log + hourly totals cross‑checked.</p>
+        </div>
+        <div class="panel">
+          <h3>Is this safe?</h3>
+          <p class="muted">It’s extreme. The plan includes hard-stop criteria, hydration/sodium targets, and a safety‑first rule: the record is secondary.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <div class="footer">
+      <div class="container" style="padding:0;">
+        <p>
+          <strong>Disclaimer:</strong> This is an independently run fundraiser benefiting Wounded Warrior Project®.
+          It is not endorsed by or officially affiliated with Wounded Warrior Project®. Donations are processed via the official campaign link.
+        </p>
+        <p class="muted">
+          Rep standard, verification approach, hydration/sodium minimums, and hard-stop safety criteria are defined to prevent ambiguity and reduce risk.
+        </p>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    // ====== CONFIG ======
+    const DONATE_URL = "https://communityfundraising.woundedwarriorproject.org/campaigns/World-Record-Chin-Up-s-in-24-Hours";
+
+    // If you want a precise start time, edit this ISO string.
+    // Default: Sept 1, 2026 at 00:00 Eastern Time (approx; displayed as countdown only).
+    const EVENT_ISO = "2026-09-01T00:00:00-04:00";
+
+    // ====== Wire up donate links ======
+    const donateIds = [
+      "donateTop",
+      "donateHero",
+      "donatePanel",
+      "donateButton"
+    ];
+
+    donateIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.setAttribute("href", DONATE_URL);
+      el.setAttribute("target", "_blank");
+      el.setAttribute("rel", "noopener noreferrer");
+    });
+
+    // ====== Countdown ======
+    const d = document.getElementById("cdDays");
+    const h = document.getElementById("cdHours");
+    const m = document.getElementById("cdMins");
+    const s = document.getElementById("cdSecs");
+
+    const eventTs = new Date(EVENT_ISO).getTime();
+
+    function pad2(n){ return String(n).padStart(2, "0"); }
+
+    function tick(){
+      const now = Date.now();
+      let diff = Math.max(0, eventTs - now);
+
+      const days = Math.floor(diff / (1000*60*60*24));
+      diff -= days * (1000*60*60*24);
+      const hours = Math.floor(diff / (1000*60*60));
+      diff -= hours * (1000*60*60);
+      const mins = Math.floor(diff / (1000*60));
+      diff -= mins * (1000*60);
+      const secs = Math.floor(diff / 1000);
+
+      d.textContent = String(days);
+      h.textContent = pad2(hours);
+      m.textContent = pad2(mins);
+      s.textContent = pad2(secs);
+    }
+
+    tick();
+    setInterval(tick, 1000);
+  </script>
+</body>
+</html>
